@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 export default function DashboardContent() {
   const [timeRange, setTimeRange] = useState("Last 30 Days")
 
-  // Mock data for the chart
+  
   const chartData = [
     { date: "05 Mar", value: 800 },
     { date: "06 Mar", value: 900 },
@@ -19,7 +19,7 @@ export default function DashboardContent() {
     { date: "11 Mar", value: 900 },
   ]
 
-  // Mock data for the table
+  
   const tableData = [
     { id: 1, name: "RUDRA", usage: "22.4 GB" },
     { id: 2, name: "Vashi Office", usage: "34.5 GB" },

@@ -2,16 +2,22 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import axios from "axios"
 
 export default function ResetPasswordForm() {
-  const [email, setEmail] = useState("you@test.dev")
+  const [email, setEmail] = useState("")
   const router = useRouter()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // In a real app, you would send a password reset email here
-    alert("Password reset link sent to your email")
-    router.push("/login")
+    try {
+      const response = await axios.post("/api/forgot-password", { email:email })
+      alert("Password reset link sent to your email")
+      router.push("/login")
+    } catch (error) {
+      console.error("Error sending password reset link:", error)
+      alert("Failed to send password reset link. Please try again.")
+    }
   }
 
   return (

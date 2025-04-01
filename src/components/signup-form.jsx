@@ -2,17 +2,27 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-
+import axios from "axios"
 export default function SignupForm() {
-  const [name, setName] = useState("John doe")
-  const [email, setEmail] = useState("you@test.dev")
-  const [password, setPassword] = useState("1234567")
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const router = useRouter()
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // In a real app, you would register the user here
-    router.push("/login")
+    try {
+      const res = await axios.post("/api/register", { email:email, password:password,name:name });
+  
+      if (res.status === 201) {
+        console.log("register successful", res.data);
+        router.push("/dashboard");  
+      } else {
+        console.log("Unexpected response", res);
+      }
+    } catch (err) {
+      console.error("Login error:", err.response?.data || err.message);
+    }
   }
 
   return (

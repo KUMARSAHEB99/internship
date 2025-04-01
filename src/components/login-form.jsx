@@ -3,20 +3,33 @@
 import Link from "next/link"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
+import axios from "axios"
 
 export default function LoginForm() {
   const [email, setEmail] = useState("you@test.dev")
   const [password, setPassword] = useState("1234567")
   const router = useRouter()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // In a real app, you would authenticate the user here
-    router.push("/dashboard")
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const res = await axios.post("/api/login", { email:email, password:password });
+  
+      if (res.status === 201) {
+        console.log("Login successful", res.data);
+        router.push("/dashboard");  
+      } else {
+        console.log("Unexpected response", res);
+      }
+    } catch (err) {
+      console.error("Login error:", err.response?.data || err.message);
+    }
+  };
+  
 
   return (
-    <div className="w-full max-w-md p-8 rounded-lg border border-[#1e90ff]">
+    <div className="w-full max-w-md p-8 rounded-lg border border-[#1e90ff] bg-[#0f1a2a]">
       <div className="mb-8 text-center">
         <h1 className="text-3xl font-bold text-white">
           future<span className="text-[#1e90ff]">konnect</span>
